@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Portfolio | Đa Nền Tảng (PC & Mobile)</title>
+    
+    <!-- Nhúng thư viện Bootstrap Icons để lấy logo chính thức của Facebook, TikTok, Google -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        /* --- Cấu hình chung & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Cuộn trang mượt mà */
+        }
+
+        body {
+            background: #060613;
+            color: #fff;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(25, 20, 50, 1) 0px, transparent 60%),
+                radial-gradient(at 100% 100%, rgba(10, 35, 45, 1) 0px, transparent 60%);
+            min-height: 100vh;
+        }
+
+        /* --- Container bao bọc hệ thống --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+        }
+
+        /* --- PHẦN 1: PROFILE CARD --- */
+        .profile-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 50px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
+        }
+
+        /* Hiệu ứng tia sáng quét ngang khi hover */
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.15), transparent);
+            transform: skewX(-25deg);
+            transition: 0.75s ease-in-out;
+        }
+
+        .profile-card:hover::before {
+            left: 125%;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 30px 60px rgba(0, 242, 254, 0.1);
+        }
+
+        /* Khối ảnh đại diện */
+        .avatar-box {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .avatar-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid transparent;
+            background-image: linear-gradient(#060613, #060613), linear-gradient(135deg, #00f2fe, #4facfe);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
+            transition: transform 0.5s ease;
+        }
+
+        .profile-card:hover .avatar-img {
+            transform: rotate(360deg);
+        }
+
+        /* Khối thông tin văn bản */
+        .info-box {
+            flex-grow: 1;
+        }
+
+        .hello-tag {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #060613;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hiệu ứng gõ chữ mã nguồn */
+        .job-title {
+            font-size: 1.25rem;
+            color: #00f2fe;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-right: 2px solid #00f2fe;
+            white-space: nowrap;
+            width: fit-content;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        .description {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        /* Nhãn kỹ năng */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .skill-badge {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: rgba(0, 242, 254, 0.1);
+            border-color: #00f2fe;
+            color: #00f2fe;
+            transform: translateY(-2px);
+        }
+
+        /* Nhóm nút bấm điều hướng */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #060613;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 25px rgba(0, 242, 254, 0.45);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* --- PHẦN 2: CHANNELS CONTACT SECTION --- */
+        .contact-section {
+            width: 100%;
+        }
+
+        .contact-title {
+            text-align: center;
+            font-family: monospace;
+            color: #00f2fe;
+            font-size: 1.4rem;
+            margin-bottom: 35px;
+            letter-spacing: 2px;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .contact-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 35px 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Định dạng icon logo vector */
+        .box-icon {
+            font-size: 3rem; /* Tăng nhẹ kích thước logo */
+            margin-bottom: 15px;
+            display: inline-block;
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: #64748b; /* Màu mặc định khi chưa hover */
+        }
+
+        .contact-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .contact-box p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        /* --- Hiệu ứng Hover chuyển màu logo chính thức --- */
+        .contact-box:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Hover Gmail: Đỏ */
+        .gmail-box:hover { border-color: #ef4444; box-shadow: 0 12px 30px rgba(239, 68, 68, 0.2); }
+        .gmail-box:hover .box-icon, .gmail-box:hover h3 { color: #ef4444; }
+
+        /* Hover Facebook: Xanh dương thương hiệu */
+        .facebook-box:hover { border-color: #1877f2; box-shadow: 0 12px 30px rgba(24, 119, 242, 0.2); }
+        .facebook-box:hover .box-icon, .facebook-box:hover h3 { color: #1877f2; }
+
+        /* Hover TikTok: Đổi sang màu trắng neon hoặc màu Cyan đặc trưng */
+        .tiktok-box:hover { border-color: #00f2fe; box-shadow: 0 12px 30px rgba(0, 242, 254, 0.2); }
+        .tiktok-box:hover .box-icon, .tiktok-box:hover h3 { color: #fff; text-shadow: 0 0 10px #00f2fe, 0 0 20px #ff007f; }
+
+        .contact-box:hover .box-icon {
+            transform: scale(1.15) rotate(4deg);
+        }
+
+        /* Đèn nháy con trỏ gõ chữ */
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #00f2fe; }
+        }
+
+        /* --- RESPONSIVE TỐI ƯU ĐIỆN THOẠI --- */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+                gap: 40px;
+            }
+
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+                gap: 25px;
+            }
+
+            .avatar-img {
+                width: 180px;
+                height: 180px;
+            }
+
+            h1 { font-size: 2rem; }
+
+            .job-title {
+                margin: 0 auto 20px auto;
+                font-size: 1.1rem;
+            }
+
+            .skills-container { justify-content: center; }
+
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn { width: 100%; }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .contact-box { padding: 25px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- PHẦN 1: THẺ PROFILE CÁ NHÂN -->
+        <div class="profile-card">
+            
+            <div class="avatar-box">
+                <img src="https://cdn.phototourl.com/free/2026-05-26-86ac000c-80ee-4d88-bed3-6e1cdf19026b.jpg" alt="Avatar" class="avatar-img">
+            </div>
+
+            <div class="info-box">
+                <span class="hello-tag">Information</span>
+                <h1>Nguyễn Minh Trí</h1>
+                
+                <div class="job-title" id="typewriter"></div>
+
+                <p class="description">
+                    Có niềm đam mê với cơ khí và máy móc cũng như các dự án KHKT, không ngừng học hỏi để nâng cao hiểu biết và định hướng cho tương lai.
+
+                <div class="skills-container">
+                    <span class="skill-badge">⚡ Python</span>
+                    <span class="skill-badge">🌐 HTML / CSS3</span>
+                    <span class="skill-badge">🤖 Arduino / ESP32</span>
+                    <span class="skill-badge">💻 Windows Crack Tool</span>
+                </div>
+
+                <div class="btn-group">
+                    <a href="#contact" class="btn btn-primary">Liên Hệ Ngay</a>
+                    <a href="#contact" class="btn btn-secondary">Dự án / Idea</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PHẦN 2: KHU VỰC LIÊN HỆ ĐÃ ĐỔI SANG LOGO CHÍNH THỨC -->
+        <div id="contact" class="contact-section">
+            <h2 class="contact-title"> LIÊN HỆ TẠI ĐÂY</h2>
+            
+            <div class="contact-grid">
+                
+                <!-- Mục 1: Gmail (Sử dụng biểu tượng Google chính thức) -->
+                <a href="mailto:tringuyen.work.25@gmail.com" target="_blank" class="contact-box gmail-box">
+                    <i class="bi bi-google box-icon"></i>
+                    <h3>GMAIL</h3>
+                    <p>Gửi thư điện tử trực tiếp</p>
+                </a>
+
+                <!-- Mục 2: Facebook (Sử dụng biểu tượng Facebook chính thức) -->
+                <a href="https://www.facebook.com/nm.tri.in4/" target="_blank" class="contact-box facebook-box">
+                    <i class="bi bi-facebook box-icon"></i>
+                    <h3>FACEBOOK</h3>
+                    <p>Kết nối và trò chuyện nhanh</p>
+                </a>
+
+                <!-- Mục 3: TikTok (Sử dụng biểu tượng TikTok chính thức) -->
+                <a href="https://tiktok.com/@_nm.tri.in4_" target="_blank" class="contact-box tiktok-box">
+                    <i class="bi bi-tiktok box-icon"></i>
+                    <h3>TIKTOK</h3>
+                    <p>Xem video nội dung sáng tạo</p>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript xử lý hiệu ứng Typewriter -->
+    <script>
+        const words = ["Người của công chúng", "Blogger", "Python Programmer", "Nhà crack học"];
+        let i = 0;
+        let timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typewriter').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typewriter').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) {
+                        i++;
+                    } else {
+                        i = 0;
+                    }
+                    setTimeout(typingEffect, 500);
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 50);
+            };
+            loopDeleting();
+        }
+
+        typingEffect();
+    </script>
+</body>
+</html>
